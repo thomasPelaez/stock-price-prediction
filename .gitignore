@@ -1,0 +1,17 @@
+# Ignore unnecessary files 
+__pycache__/
+*.py[cod]
+
+# Ignore virtual environment
+venv/
+
+# Ignore large datasets
+data/*.csv
+data/*.json
+
+# Ignore Jupyter Notebook chechkpoints
+.ipynb_checkpoints/
+
+# Ignore logs and temporary files
+*.log
+*.tmp
