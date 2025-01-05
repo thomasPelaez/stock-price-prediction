@@ -1,32 +1,32 @@
 import pandas as pd 
 
 # Define the file path
-file_path = "C:/Users/thoma/OneDrive/Documents/stock-price-prediction/data/stock_prices.csv"
+file_path = "C:/Users/thoma/OneDrive/Documents/stock-price-prediction/data/crude_oil_prices.csv"
 
 # Load the data
-data = pd.read_csv(file_path, skiprows=2)
+try:
+    data=pd.read_csv(file_path)
+    print("Data succesfully loaded")
+except FileNotFoundError:
+    print(f"File not found: {file_path}")
+    exit()
 
-# Display first 5 rows
-print("Frist 5 rows of the dataset:")
+# Drop unnecessary rows (for example index 0 and 1 inf htey contain invalid data)
+data.dropna(inplace=True)
+
+# Convert numeric columns to appropriate data types
+numeric_columns = ["Open", "High", "Low", "Close", "Volume"]
+for col in numeric_columns:
+    data[col] = pd.to_numeric(data[col], errors="coerce") #Handles invalid conversions
+
+# Inspect the first few rows of data
+print("\nFirst 5 rows of hte dataset:")
 print(data.head())
 
-# Display dataset info
-print("\nDataset Info::")
-print(data.info())
+# Check for missing values
+print("\nMissing values in the dataset:")
+print(data.isnull().sum())
 
-# Display sumary statistics
-print("\nSummary Statistics:")
-print(data.describe())
-
-# Drop rows with missing values
-data = data.dropna()
-
-# Convert the 'Date' column to datetime and sort by datea
-data['Date'] = pd.to_datetime(data['Date'])
-data = data.sort_values(by='Date')
-
-# Save the cleaned data
-cleaned_file_path = "C:/Users/thoma/OneDrive/Documents/stock-price-prediction/data/clean_stock_prices.csv"
-data.to_csv(cleaned_file_path, index=False)
-
-print("\nData cleaned and saved!")
+# Display the dataset's overall structure
+print("\nDataset Info:")
+print(data.info)
